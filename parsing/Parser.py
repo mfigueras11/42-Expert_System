@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Parser.py                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
+#    Updated: 2019/09/14 19:00:18 by mfiguera         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 import re
 import sys
 
@@ -47,8 +59,7 @@ class Parser():
 
         for c in collection:
             if re.match(r"^[?=]([A-Z])+$", c) == None:
-                sys.exit('ERROR - Only capital letters and corresponding symbol at\
-                the beggining in queries and facts')
+                sys.exit('ERROR - Only capital letters and corresponding symbol at the beggining in queries and facts')
         return(re.sub(r"(?<=[A-Z])|[=?]", ' ', ''.join(collection)).strip().split(' '))
 
 

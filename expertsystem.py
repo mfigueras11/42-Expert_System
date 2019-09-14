@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    expertsystem.py                                    :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
+#    Updated: 2019/09/14 19:00:19 by mfiguera         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 import argparse
 import re
 import sys
@@ -18,7 +30,6 @@ def parse_args():
 def expertsystem():
     args = parse_args()
     expert = Parser(args.file)
-    expert.eval_file()
     print(expert.rules, expert.facts, expert.queries)
 
 
