@@ -17,9 +17,9 @@ def parse_args():
 
 def expertsystem():
     args = parse_args()
-    expert = Parser()
-    rules, facts, queries = expert.eval_file(args.file)
-    print(rules, facts, queries)
+    expert = Parser(args.file)
+    expert.eval_file()
+    print(expert.rules, expert.facts, expert.queries)
 
 
 if __name__ == "__main__":
