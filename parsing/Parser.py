@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/17 11:45:17 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/17 18:49:47 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ import sys
 
 sys.path.insert(1, './solving/')
 
-from Variable import Variable
+from Literal import Literal
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
 
 class Parser():
     
@@ -89,13 +90,13 @@ class Parser():
         # TODO: find the good way of storing the information, thought of a "tree"
         # of operations that puts everything alltogether
         for rule in self.rules:
-            tmpvars = [Variable.fromliteral(letter) for letter in rule if letter in ALPHABET]
+            tmpvars = [Literal.fromliteral(letter) for letter in rule if letter in ALPHABET]
 
 
     def eval_file(self):
         self.get_clean_instructions()
         self.sort_instructions()
         self.generate_variables()
-        Variable.init_true(self.facts)
-        Variable.display_all_info()
+        Literal.init_true(self.facts)
+        Literal.display_all_info()
 
