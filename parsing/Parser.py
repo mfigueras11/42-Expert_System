@@ -6,13 +6,18 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/14 19:00:18 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/17 11:45:17 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import re
 import sys
 
+sys.path.insert(1, './solving/')
+
+from Variable import Variable
+
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 class Parser():
     
@@ -78,10 +83,19 @@ class Parser():
         self.queries = self.get_individual_list(queries)
 
         self.rules = [self.instructions[i] for i in range(len(self.instructions)) if i not in exclude]
+    
+    
+    def generate_variables(self):
         # TODO: find the good way of storing the information, thought of a "tree"
         # of operations that puts everything alltogether
+        for rule in self.rules:
+            tmpvars = [Variable.fromliteral(letter) for letter in rule if letter in ALPHABET]
 
 
     def eval_file(self):
         self.get_clean_instructions()
         self.sort_instructions()
+        self.generate_variables()
+        Variable.init_true(self.facts)
+        Variable.display_all_info()
+
