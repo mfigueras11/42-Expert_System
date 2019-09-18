@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/17 19:38:11 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:04:33 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,10 @@ class Literal(Variable):
         self.literal = literal
 
     @classmethod
+    def name(cls):
+        return "Literal"
+
+    @classmethod
     def fromliteral(cls, literal):
         if literal not in cls.literals:
             newvariable = cls(literal)
@@ -41,7 +45,7 @@ class Literal(Variable):
 
 
     def get_name_val(self):
-        return '{} - {}'.format(self.literal, str(self.check_value()))
+        return '{} - {}'.format(self.literal, str(self.read_val()))
 
     @classmethod
     def display_info(cls, varnames):
@@ -58,8 +62,7 @@ class Literal(Variable):
     @classmethod
     def init_true(cls, variables):
         for var in variables:
-            cls.literals[var].set_value(True)
-            super().unchangable = cls.unchangable.union([cls.literals[var]])
+            cls.literals[var].set_val(True)
 
     def get_error_unsolvable(self):
-        return 'Variable {} with conflicting values.'.format(self.literal)
+        return '{} {} with conflicting values.'.format(self.name(), self.literal)
