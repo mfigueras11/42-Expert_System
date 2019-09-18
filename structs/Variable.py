@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 09:37:12 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:04:35 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:11:10 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ class Variable():
             self.value = newval
             self.certain = True
         elif newval != self.value:
-            sys.exit('ERROR - Non solvable system. {}'.format(self.get_error_unsolvable()))
+            sys.exit('ERROR - Non solvable system.{}'.format(self.get_error_unsolvable()))
 
 
     def read_val(self):
@@ -37,4 +37,4 @@ class Variable():
 
     
     def get_error_unsolvable(self):
-        pass
+        return ""

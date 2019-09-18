@@ -6,14 +6,14 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/17 18:49:47 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:51:14 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import re
 import sys
 
-sys.path.insert(1, './solving/')
+sys.path.insert(1, './structs/')
 
 from Literal import Literal
 

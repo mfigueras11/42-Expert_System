@@ -6,13 +6,13 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:04:33 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:51:00 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 
-sys.path.insert(1, './solving/')
+sys.path.insert(1, './structs/')
 
 from Variable import Variable
 
@@ -65,4 +65,4 @@ class Literal(Variable):
             cls.literals[var].set_val(True)
 
     def get_error_unsolvable(self):
-        return '{} {} with conflicting values.'.format(self.name(), self.literal)
+        return ' {} {} with conflicting values.'.format(self.name(), self.literal)

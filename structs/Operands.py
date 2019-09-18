@@ -6,13 +6,13 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:04:28 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:50:52 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 
-sys.path.insert(1, './solving/')
+sys.path.insert(1, './structs/')
 
 from Variable import Variable
 
