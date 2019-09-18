@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:51:00 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:52:34 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,6 @@ class Literal(Variable):
         super().__init__()
         self.literal = literal
 
-    @classmethod
-    def name(cls):
-        return "Literal"
 
     @classmethod
     def fromliteral(cls, literal):
@@ -65,4 +62,4 @@ class Literal(Variable):
             cls.literals[var].set_val(True)
 
     def get_error_unsolvable(self):
-        return ' {} {} with conflicting values.'.format(self.name(), self.literal)
+        return ' Literal {} with conflicting values.'.format(self.literal)
