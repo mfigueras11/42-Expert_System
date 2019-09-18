@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:50:52 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 11:59:10 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ sys.path.insert(1, './structs/')
 from Variable import Variable
 
 
-class Logicnot(Variable):
+class   Logicnot(Variable):
     """
     Logic gate NOT
     Allows one input and one output. Output is True if input is False and viceversa
@@ -39,7 +39,7 @@ class Logicnot(Variable):
 
 
 
-class Logicand(Variable):
+class   Logicand(Variable):
     """
     Logic gate AND
     Allows 2+ inputs and one output. Output is True only if all inputs are True
@@ -63,7 +63,7 @@ class Logicand(Variable):
 
 
 
-class Logicor(Variable):
+class   Logicor(Variable):
     """
     Logic gate AND
     Allows 2+ inputs and one output. Output is True if at least one of the inputs is True
@@ -82,7 +82,7 @@ class Logicor(Variable):
 
 
 
-class Logicxor(Variable):
+class   Logicxor(Variable):
     """
     Logic gate XOR
     Allows 2 inputs and one output. Output is True if inputs are not equal

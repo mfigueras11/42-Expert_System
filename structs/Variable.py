@@ -6,14 +6,14 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 09:37:12 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:11:10 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 12:07:06 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 
 
-class Variable():
+class   Variable():
     unchangable = set()
 
     def __init__(self):
