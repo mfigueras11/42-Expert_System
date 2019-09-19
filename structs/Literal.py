@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:52:34 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 10:52:30 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ sys.path.insert(1, './structs/')
 from Variable import Variable
 
 
-class Literal(Variable):
+class   Literal(Variable):
     literals = {}
 
     def __init__(self, literal):
@@ -44,6 +44,7 @@ class Literal(Variable):
     def get_name_val(self):
         return '{} - {}'.format(self.literal, str(self.read_val()))
 
+
     @classmethod
     def display_info(cls, varnames):
         info = [var.get_name_val() for name, var in cls.literals.items() if name in varnames]
@@ -60,6 +61,7 @@ class Literal(Variable):
     def init_true(cls, variables):
         for var in variables:
             cls.literals[var].set_val(True)
+
 
     def get_error_unsolvable(self):
         return ' Literal {} with conflicting values.'.format(self.literal)
