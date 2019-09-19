@@ -6,13 +6,9 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 10:52:30 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 11:23:48 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-import sys
-
-sys.path.insert(1, './structs/')
 
 from Variable import Variable
 

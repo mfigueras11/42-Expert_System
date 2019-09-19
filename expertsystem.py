@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/14 19:00:19 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 11:24:16 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ import argparse
 import re
 import sys
 
-sys.path.extend(["./parsing/"])
+sys.path.extend(["./parsing/", "./structs/", "./config/"])
 
 from Parser import Parser
 

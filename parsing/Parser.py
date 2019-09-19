@@ -6,20 +6,17 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 10:59:12 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 11:52:29 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import re
 import sys
 
-sys.path.insert(1, ['./structs/', './config'])
-
 from Literal import Literal
 from Assigners import Implies, Ifandonlyif
 from Config import Config as config
-
-ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+from Lexer import Lexer
 
 
 class Parser():
@@ -94,7 +91,7 @@ class Parser():
     def generate_variables(self):
         rules = []
         for rule in self.rules:
-            tmpvars = [Literal.fromliteral(letter) if letter in ALPHABET else letter for letter in rule]
+            tmpvars = [Literal.fromliteral(letter) if letter in config.literals else letter for letter in rule]
             rules.append(tmpvars)
         return rules
     
