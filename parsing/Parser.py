@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 12:21:34 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 18:15:23 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ import re
 import sys
 
 from Literal import Literal
-from Assigners import Implies, Ifandonlyif
+from Assigners import Implies, Iff
 from Config import Config as config
 from Lexer import Lexer
 
@@ -66,9 +66,9 @@ class Parser():
         """
 
         for c in collection:
-            if re.match(r"^[?=]([A-Z])+$", c) == None:
+            if re.match(r"^[" + re.escape(config.query + config.fact) + "]([" + re.escape(config.literals) + r"])+$", c) == None:
                 sys.exit('ERROR - Only capital letters and corresponding symbol at the beggining in queries and facts')
-        return(re.sub(r"(?<=[A-Z])|[=?]", ' ', ''.join(collection)).strip().split(' '))
+        return(re.sub(r"(?<=[" + re.escape(config.literals) + "])|[" + re.escape(config.query + config.fact) + "]", ' ', ''.join(collection)).strip().split(' '))
 
 
     def sort_instructions(self):
@@ -91,6 +91,6 @@ class Parser():
     def eval_file(self):
         self.get_clean_instructions()
         self.sort_instructions()
-        self.rules = self.generate_variables()
-        Literal.init_true(self.facts)
-        Literal.display_all_info()
+        # self.rules = self.generate_variables()
+        # Literal.init_true(self.facts)
+        # Literal.display_all_info()
