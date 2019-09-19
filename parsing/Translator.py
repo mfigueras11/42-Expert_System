@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 12:59:04 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 18:43:33 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,22 @@ class   Translator():
     structures
     """
     
-    def __init__(self, rules):
+    def __init__(self, rules, facts, queries):
         self.rules = rules
+        self.facts = facts
+        self.queries = queries
+
+
+    def update_queries_facts(self):
+        self.facts = [Literal.fromliteral(c) for c in self.facts]
+        self.queries = [Literal.fromliteral(c) for c in self.queries]
 
 
     def translate(self):
         processed_rules = []
 
+        self.generate_variables()
+        
         for rule in self.rules:
             processed_rules.append(self.process_rule(rule))
 
@@ -41,7 +50,7 @@ class   Translator():
         else:
             sentences = rule.split(config.subst_impl)
             isimply = True
-        
+
         if len(sentences) != 2:
             sys.exit("ERROR - Rule could not be splitted properly.")
         
@@ -61,7 +70,7 @@ class   Translator():
         for rule in self.rules:
             tmpvars = [Literal.fromliteral(letter) if letter in config.literals else letter for letter in rule]
             rules.append(tmpvars)
-        return rules
+        self.rules = rules
         
 
     def process_rule(self, rule):
