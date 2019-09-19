@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/18 11:58:06 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 12:05:47 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 12:02:08 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,5 +30,5 @@ class   Implies(Assigners):
 
 
 
-class   Ifandonlyif(Assigners):
+class   Iff(Assigners):
     pass
