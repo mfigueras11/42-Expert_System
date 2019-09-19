@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 12:59:17 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 18:39:05 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,9 @@ class Lexer():
 
     def check(self):
         for rule in self.rules:
-            if not self.is_balanced(rule):
-                sys.exit("ERROR - Unbalanced rule. Make sure brackets are rignt, symbols are in their place and there are the right amount of literals")
+            balanced, error = self.is_balanced(rule)
+            if not balanced:
+                sys.exit("ERROR - " + error)
         return True
 
 
@@ -36,7 +37,7 @@ class Lexer():
         variables = 0
         
         if rule.count(config.subst_iff) + rule.count(config.subst_impl) != 1:
-            return False, 
+            return False, "Wrong number of assigners."
 
         for i, c in enumerate(rule):
             if c == config.l_bracket:
@@ -48,11 +49,14 @@ class Lexer():
             elif c in config.op_symbols or c in config.subst_symbols:
                 variables -= 1
             elif c == config.negation:
-                if (i + 1 < len(rule) and (rule[i + 1] not in config.literals or rule[i + 1] != config.l_bracket))or i + 1 > len(rule):
-                    return False
+                print(brackets, variables, rule, c)
+                if (i + 1 < len(rule) and (rule[i + 1] not in config.literals and rule[i + 1] != config.l_bracket))or i + 1 > len(rule):
+                    return False, "1"
             
-            if brackets < 0 or (brackets == 0 and variables != 1):
-                return False
+            if brackets < 0 or variables > 1:
+                return False, "2"
                 
-        if brackets != 0:
-            return False
+        if brackets != 0 or variables != 1:
+            return False, "3"
+        
+        return True, "4"
