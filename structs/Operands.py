@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:59:10 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/18 14:16:56 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ class   Logicnot(Variable):
     def __init__(self, term):
         super().__init__()
         self.term = term
+        term.add_precedent(self)
 
 
     def read_val(self):
@@ -48,6 +49,8 @@ class   Logicand(Variable):
     def __init__(self, terms):
         super().__init__()
         self.terms = terms
+        for term in terms:
+            term.add_precedent(self)
 
 
     def read_val(self):
@@ -72,6 +75,8 @@ class   Logicor(Variable):
     def __init__(self, terms):
         super().__init__()
         self.terms = terms
+        for term in terms:
+            term.add_precedent(self)
 
 
     def read_val(self):
