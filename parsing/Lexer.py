@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 11:51:40 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 12:59:17 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,13 @@ from Config import Config as config
 
 
 class Lexer():
+    """
+    Contains methods related to the lexic and syntactic evaluation of every rule
+    """
     
     def __init__(self, rules):
         self.rules = rules
+
 
     def check(self):
         for rule in self.rules:

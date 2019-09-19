@@ -6,17 +6,22 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 12:20:09 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 12:59:04 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import sys
 
 from Assigners import Implies, Iff
-from Literal import Literal
+from Symbols import Logicand, Logicnot, Logicor, Logicxor
 from Config import Config as config
+from Literal import Literal
 
 class   Translator():
+    """
+    Contains methods related to the conversion of char rules to the appropiate
+    structures
+    """
     
     def __init__(self, rules):
         self.rules = rules
