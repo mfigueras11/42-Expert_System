@@ -6,16 +6,18 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 11:51:14 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 10:59:12 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import re
 import sys
 
-sys.path.insert(1, './structs/')
+sys.path.insert(1, ['./structs/', './config'])
 
 from Literal import Literal
+from Assigners import Implies, Ifandonlyif
+from Config import Config as config
 
 ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -36,7 +38,10 @@ class Parser():
 
     @staticmethod
     def clean_line(line):
-        return re.sub(r"#.*| |\t|\n", '', line)
+        line = re.sub(r"#.*| |\t|\n", '', line)
+        line = re.sub(config.iff, config.subst_iff, line)
+        line = re.sub(config.implication, config.subst_impl, line)
+        return line
 
 
     def get_clean_instructions(self):
@@ -45,8 +50,8 @@ class Parser():
         list of indexes where queries and facts are (i_queries, i_facts).
         """
 
-        self.i_facts = [i for i in range(len(self.instructions)) if self.instructions[i][0] == '=']
-        self.i_queries = [i for i in range(len(self.instructions)) if self.instructions[i][0] == '?']
+        self.i_facts = [i for i in range(len(self.instructions)) if self.instructions[i][0] == config.fact]
+        self.i_queries = [i for i in range(len(self.instructions)) if self.instructions[i][0] == config.query]
 
         if len(self.i_facts) > 1:
             sys.exit('ERROR - Insert just one line with facts.')
@@ -87,16 +92,53 @@ class Parser():
     
     
     def generate_variables(self):
-        # TODO: find the good way of storing the information, thought of a "tree"
-        # of operations that puts everything alltogether
+        rules = []
         for rule in self.rules:
-            tmpvars = [Literal.fromliteral(letter) for letter in rule if letter in ALPHABET]
+            tmpvars = [Literal.fromliteral(letter) if letter in ALPHABET else letter for letter in rule]
+            rules.append(tmpvars)
+        return rules
+    
+    
+    
+    def split_rule(self, rule):
+        if config.subst_iff in rule:
+            sentences = rule.split(config.subst_iff)
+            isimply = False
+        else:
+            sentences = rule.split(config.subst_impl)
+            isimply = True
+        
+        if len(sentences) != 2:
+            sys.exit("ERROR - Rule could not be splitted properly.")
+        
+        return sentences, isimply
 
 
+
+    def process_sentence(self, sentence):
+        brackets = 0
+        for i, c in enumerate(sentence):
+            if c == config.l_bracket:
+                brackets += 1
+
+
+
+    def process_rule(self, rule):
+        sentences, isimply = self.split_rule(rule)
+
+        sentences = [self.process_sentence(sentence) for sentence in sentences]
+        
+        if isimply:
+            return Implies(*sentences)
+        else:
+            return Ifandonlyif(*sentences)
+
+
+        
+    
     def eval_file(self):
         self.get_clean_instructions()
         self.sort_instructions()
-        self.generate_variables()
+        self.rules = self.generate_variables()
         Literal.init_true(self.facts)
         Literal.display_all_info()
-
