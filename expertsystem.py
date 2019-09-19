@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 11:24:16 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/19 18:25:33 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,8 @@ import sys
 sys.path.extend(["./parsing/", "./structs/", "./config/"])
 
 from Parser import Parser
+from Lexer import Lexer
+from Translator import Translator
 
 
 def parse_args():
@@ -29,8 +31,12 @@ def parse_args():
 
 def expertsystem():
     args = parse_args()
-    expert = Parser(args.file)
-    print(expert.rules, expert.facts, expert.queries)
+    parser = Parser(args.file)
+    lexer = Lexer(parser.rules)
+    if lexer.check():
+        translator = Translator(parser.rules, parser.facts, parser.queries)
+        translator.translate()
+    print(parser.rules, parser.facts, parser.queries)
 
 
 if __name__ == "__main__":
