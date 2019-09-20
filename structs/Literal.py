@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 11:23:48 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/20 10:57:44 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ class   Literal(Variable):
 
             return newvariable
         else:
-            cls.get_var(literal)
+            return cls.get_var(literal)
 
 
     @classmethod
