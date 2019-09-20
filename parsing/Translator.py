@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/20 12:13:55 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/20 13:00:30 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,14 +65,29 @@ class   Translator():
                 return i
 
 
+    @staticmethod
+    def _substitute(sentence, i, j, val):
+        return sentence[:i] + [val] + sentence[j:]
+
+
+    def _bracket(self, stc, i):
+        cb = self._closing_bracket(stc[i:])
+        return self._substitute(stc, i, i + cb, self.process_sentence(stc[i + 1:cb]))
+
+
     def process_sentence(self, sentence):
-        while True:
+        ops = [
+            (config.l_bracket, self._bracket())
+        ]
+        for a in range(5):
+            print(sentence)
             if len(sentence) == 1:
                 return sentence[0]
             for i, c in enumerate(sentence):
                 if c == config.l_bracket:
                     c_b = self._closing_bracket(sentence[i:])
-                    sentence = self.substitute(i, i + c_b, self.process_sentence(sentence[i:i + c_b]))
+                    sentence = self._substitute(sentence, i, i + c_b, self.process_sentence(sentence[i+1:i + c_b]))
+                    break
 
     
     @staticmethod 
