@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 18:39:05 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/20 12:14:30 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,8 @@ class Lexer():
                 sys.exit("ERROR - " + error)
         return True
 
-
-    def is_balanced(self, rule):
+    @staticmethod
+    def is_balanced(rule):
         brackets = 0
         variables = 0
         
@@ -49,7 +49,6 @@ class Lexer():
             elif c in config.op_symbols or c in config.subst_symbols:
                 variables -= 1
             elif c == config.negation:
-                print(brackets, variables, rule, c)
                 if (i + 1 < len(rule) and (rule[i + 1] not in config.literals and rule[i + 1] != config.l_bracket))or i + 1 > len(rule):
                     return False, "1"
             

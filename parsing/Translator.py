@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 18:43:33 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/20 12:13:55 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ from Assigners import Implies, Iff
 from Symbols import Logicand, Logicnot, Logicor, Logicxor
 from Config import Config as config
 from Literal import Literal
+from Variable import Variable
 
 class   Translator():
     """
@@ -36,47 +37,55 @@ class   Translator():
 
     def translate(self):
         processed_rules = []
-
-        self.generate_variables()
         
         for rule in self.rules:
             processed_rules.append(self.process_rule(rule))
 
-
-    def split_rule(self, rule):
+    @staticmethod
+    def _split_rule(rule):
         if config.subst_iff in rule:
-            sentences = rule.split(config.subst_iff)
-            isimply = False
+            return rule.split(config.subst_iff), False
         else:
-            sentences = rule.split(config.subst_impl)
-            isimply = True
+            return rule.split(config.subst_impl), True
 
-        if len(sentences) != 2:
-            sys.exit("ERROR - Rule could not be splitted properly.")
-        
-        return sentences, isimply
+    @staticmethod 
+    def _isvariable(var):
+        return Variable in type(var).__bases__
+    
+
+    @staticmethod 
+    def _closing_bracket(string):
+        brackets = 0
+        for i, c in enumerate(string):
+            if c == config.l_bracket:
+                brackets += 1
+            elif c == config.r_bracket:
+                brackets -= 1
+            if brackets == 0:
+                return i
 
 
     def process_sentence(self, sentence):
-        brackets = 0
-        for i, c in enumerate(sentence):
-            if c == config.l_bracket:
-                brackets += 1
-        pass
+        while True:
+            if len(sentence) == 1:
+                return sentence[0]
+            for i, c in enumerate(sentence):
+                if c == config.l_bracket:
+                    c_b = self._closing_bracket(sentence[i:])
+                    sentence = self.substitute(i, i + c_b, self.process_sentence(sentence[i:i + c_b]))
 
     
-    def generate_variables(self):
-        rules = []
-        for rule in self.rules:
-            tmpvars = [Literal.fromliteral(letter) if letter in config.literals else letter for letter in rule]
-            rules.append(tmpvars)
-        self.rules = rules
+    @staticmethod 
+    def _generate_variables(sentence):
+        return [Literal.fromliteral(letter) if letter in config.literals else letter for letter in sentence]
         
 
     def process_rule(self, rule):
-        sentences, isimply = self.split_rule(rule)
+        sentences, isimply = self._split_rule(rule)
 
+        # sentences = [self.process_sentence(self.generate_variables(sentence)) for sentence in sentences]
         sentences = [self.process_sentence(sentence) for sentence in sentences]
+
         
         if isimply:
             return Implies(*sentences)
