@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 18:25:33 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/21 13:42:50 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,12 @@ def parse_args():
 def expertsystem():
     args = parse_args()
     parser = Parser(args.file)
-    lexer = Lexer(parser.rules)
+    lexer = Lexer(parser.raw_rules)
     if lexer.check():
-        translator = Translator(parser.rules, parser.facts, parser.queries)
+        translator = Translator(parser.raw_rules, parser.raw_facts, parser.raw_queries)
         translator.translate()
-    print(parser.rules, parser.facts, parser.queries)
+    for rule in translator.rules:
+        print(rule.display())
 
 
 if __name__ == "__main__":

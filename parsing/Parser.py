@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 18:15:23 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/21 13:40:32 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,12 +80,12 @@ class Parser():
         exclude = self.i_facts + self.i_queries
 
         facts = [self.instructions[i] for i in self.i_facts]
-        self.facts = self.get_individual_list(facts)
+        self.raw_facts = self.get_individual_list(facts)
 
         queries = [self.instructions[i] for i in self.i_queries]
-        self.queries = self.get_individual_list(queries)
+        self.raw_queries = self.get_individual_list(queries)
 
-        self.rules = [self.instructions[i] for i in range(len(self.instructions)) if i not in exclude]
+        self.raw_rules = [self.instructions[i] for i in range(len(self.instructions)) if i not in exclude]
     
         
     def eval_file(self):

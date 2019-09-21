@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/20 13:00:30 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/21 14:33:03 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,27 +24,27 @@ class   Translator():
     structures
     """
     
-    def __init__(self, rules, facts, queries):
-        self.rules = rules
-        self.facts = facts
-        self.queries = queries
+    def __init__(self, raw_rules, raw_facts, raw_queries):
+        self.raw_rules = raw_rules
+        self.raw_facts = raw_facts
+        self.raw_queries = raw_queries
 
 
     def update_queries_facts(self):
-        self.facts = [Literal.fromliteral(c) for c in self.facts]
-        self.queries = [Literal.fromliteral(c) for c in self.queries]
+        self.facts = [Literal.fromliteral(c) for c in self.raw_facts]
+        self.queries = [Literal.fromliteral(c) for c in self.raw_queries]
 
 
     def translate(self):
-        processed_rules = []
+        self.rules = []
         
-        for rule in self.rules:
-            processed_rules.append(self.process_rule(rule))
+        for rule in self.raw_rules:
+            self.rules.append(self.process_rule(rule))
 
 
     def _split_rule(self, rule):
         if config.subst_iff in rule:
-            return [self._generate_variables(stc) for stc in rule.split(config.subst_iff)], False
+            return [self._generate_variables (stc) for stc in rule.split(config.subst_iff)], False
         else:
             return [self._generate_variables(stc) for stc in rule.split(config.subst_impl)], True
 
@@ -106,7 +106,7 @@ class   Translator():
         return self._substitute(stc, i - 1, i + j, Logicor(operands))
 
     def _op_xor(self, stc, i):
-        return self._substitute(stc, i - 1, i + 1, Logicxor(stc[i - 1 : i + 1 : 2]))
+        return self._substitute(stc, i - 1, i + 1, Logicxor(*stc[i - 1 : i + 2 : 2]))
 
 
     def process_sentence(self, stc):
@@ -118,13 +118,11 @@ class   Translator():
             (config.op_xor, self._op_xor)
         ]
         while True: #Change to while True
-            print(stc)
             if len(stc) == 1:
                 return stc[0]
             for op_c, op_do in ops:
                 # print("Looking at " + op_c)
                 for i, c in enumerate(stc):
-                    print(op_c, c)
                     if c == op_c:
                         stc = op_do(stc, i)
                         break
