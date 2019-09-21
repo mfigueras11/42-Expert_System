@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/20 10:57:44 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/21 14:33:28 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,10 @@ class   Literal(Variable):
     @classmethod
     def display_all_info(cls):
         cls.display_info(cls.literals.keys())
+
+
+    def display(self):
+        return self.literal
 
 
     @classmethod
