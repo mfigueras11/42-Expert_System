@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/21 14:33:03 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/26 12:35:45 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,16 +85,16 @@ class   Translator():
 
     @staticmethod
     def _substitute(stc, i, j, val):
-        return stc[:i] + [val] + stc[j+1:]
+        return stc[:i] + [val] + stc[j:]
 
 
     def _bracket(self, stc, i):
         cb = self._closing_bracket(stc[i:])
-        return self._substitute(stc, i, i + cb, self.process_sentence(stc[i + 1:i + cb]))
+        return self._substitute(stc, i, i + cb + 1, self.process_sentence(stc[i + 1:i + cb]))
 
 
     def _negation(self, stc, i):
-        return self._substitute(stc, i, i + 1, Logicnot(stc[i+1]))
+        return self._substitute(stc, i, i + 2, Logicnot(stc[i+1]))
 
     
     @staticmethod
@@ -109,7 +109,7 @@ class   Translator():
             if no == 1:
                 ret.append(c)
             if no > 1:
-                return i, ret
+                return i - 1, ret
         return i, ret
 
     
@@ -123,7 +123,7 @@ class   Translator():
         return self._substitute(stc, i - 1, i + j, Logicor(operands))
 
     def _op_xor(self, stc, i):
-        return self._substitute(stc, i - 1, i + 1, Logicxor(*stc[i - 1 : i + 2 : 2]))
+        return self._substitute(stc, i - 1, i + 2, Logicxor(*stc[i - 1 : i + 2 : 2]))
 
 
     def process_sentence(self, stc):
@@ -134,11 +134,10 @@ class   Translator():
             (config.op_or, self._op_or),
             (config.op_xor, self._op_xor)
         ]
-        while True: #Change to while True
+        while True:
             if len(stc) == 1:
                 return stc[0]
             for op_c, op_do in ops:
-                # print("Looking at " + op_c)
                 for i, c in enumerate(stc):
                     if c == op_c:
                         stc = op_do(stc, i)
