@@ -35,11 +35,28 @@ class   Translator():
         self.queries = [Literal.fromliteral(c) for c in self.raw_queries]
 
 
+    @staticmethod
+    def find_certain(rules):
+        certain, uncertain = [], []
+        for rule in rules:
+            cert, uncert = rule.list_vars()
+            certain.extend(cert)
+            uncertain.extend(uncert)
+
+        return [var for var in certain if var not in uncertain]
+
+
     def translate(self):
         self.rules = []
-        
         for rule in self.raw_rules:
+            print(rule)
             self.rules.append(self.process_rule(rule))
+        self.update_queries_facts()
+        Literal.init_true(self.raw_facts)
+        certain = self.find_certain(self.rules)
+        for var in certain:
+            var.certain = True
+        
 
 
     def _split_rule(self, rule):
