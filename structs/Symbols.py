@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/21 13:24:26 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/26 11:59:44 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,13 @@ sys.path.insert(1, './structs/')
 from Variable import Variable
 
 
-class   Logicnot(Variable):
+class   Symbol(Variable):
+
+    def list_vars(self):
+        return [var for term in self.terms for var in term.list_vars()]
+
+
+class   Logicnot(Symbol):
     """
     Logic gate NOT
     Allows one input and one output. Output is True if input is False and viceversa
@@ -25,6 +31,7 @@ class   Logicnot(Variable):
 
     def __init__(self, term):
         super().__init__()
+        self.terms = [term]
         self.term = term
         term.add_precedent(self)
 
@@ -42,7 +49,7 @@ class   Logicnot(Variable):
     #     self.term.set_val(ans)
 
 
-class   Logicand(Variable):
+class   Logicand(Symbol):
     """
     Logic gate AND
     Allows 2+ inputs and one output. Output is True only if all inputs are True
@@ -72,7 +79,7 @@ class   Logicand(Variable):
 
 
 
-class   Logicor(Variable):
+class   Logicor(Symbol):
     """
     Logic gate AND
     Allows 2+ inputs and one output. Output is True if at least one of the inputs is True
@@ -85,11 +92,13 @@ class   Logicor(Variable):
             term.add_precedent(self)
 
 
-    def read_val(self):
-        if all(term.certain == True for term in self.terms):
-            return any(term.val == True for term in self.terms)
-        elif any(term.certain == True and term.val == True for term in self.terms):
-            return True
+    # def read_val(self):
+    #     if any([term.certain == True and term.val == True for term in self.terms]):
+    #         self.certain = True
+    #         self.val = True
+    #         return True
+    #     elif:
+    #         self.val = any([term.val == True for term in self.terms])
 
 
     def display(self):
@@ -98,7 +107,7 @@ class   Logicor(Variable):
 
 
 
-class   Logicxor(Variable):
+class   Logicxor(Symbol):
     """
     Logic gate XOR
     Allows 2 inputs and one output. Output is True if inputs are not equal
@@ -106,6 +115,7 @@ class   Logicxor(Variable):
 
     def __init__(self, term1, term2):
         super().__init__()
+        self.terms = [term1, term2]
         self.term1 = term1
         self.term2 = term2
         for term in [term1, term2]:
