@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 09:37:12 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/18 14:14:53 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/09/26 12:00:44 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,15 @@ class   Variable():
 
     def set_val(self, newval):
         if not self.certain:
-            self.value = newval
+            self.val = newval
             self.certain = True
-        elif newval != self.value:
+        elif newval != self.val:
             sys.exit('ERROR - Non solvable system.{}'.format(self.get_error_unsolvable()))
 
 
     def read_val(self):
         if self.certain:
-            return self.value
+            return self.val
         return None
 
     
