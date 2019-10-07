@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 09:37:12 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/26 12:00:44 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/07 18:54:19 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,9 @@ class   Variable():
 
 
     def read_val(self):
-        if self.certain:
-            return self.val
-        return None
+        if not self.certain:
+            self.solve()
+        return self.certain, self.val
 
     
     def get_error_unsolvable(self):
@@ -43,3 +43,6 @@ class   Variable():
     
     def add_precedent(self, precedent):
         self.precedents.append(precedent)
+    
+    def solve(self):
+        pass
