@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/26 12:35:45 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/07 18:03:28 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,8 @@ class   Translator():
 
 
     def _negation(self, stc, i):
+        if type(stc[i+1]) == Logicnot:
+            return self._substitute(stc, i, i + 2, stc[i+1].term)
         return self._substitute(stc, i, i + 2, Logicnot(stc[i+1]))
 
     
