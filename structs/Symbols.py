@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/26 11:59:44 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/07 19:34:04 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +36,11 @@ class   Logicnot(Symbol):
         term.add_precedent(self)
 
 
-    def read_val(self):
-        if self.term.certain:
-            return not self.term.read_val()
+    def solve(self):
+        cert, val = self.term.read_val()
+        newval = not val
+        if cert:
+            self.set_val(newval)
     
     def display(self):
         return "NOT(" + self.term.display() + ")"
@@ -62,11 +64,20 @@ class   Logicand(Symbol):
             term.add_precedent(self)
 
 
-    def read_val(self):
-        if all(term.certain == True for term in self.terms):
-            return all(term.val == True for term in self.terms)
-        elif any(term.certain == True and term.val == False for term in self.terms):
-            return False
+    def solve(self):
+        certain = []
+        values = []
+        for term in self.terms:
+            cert, val = term.read_val()
+            if cert == True and val == False:
+                self.set_val(False)
+                return
+            values.append(val)
+            certain.append(cert)
+        
+        if all(certain):
+            self.set_val(all(values))
+        
 
     
     def display(self):
@@ -91,6 +102,20 @@ class   Logicor(Symbol):
         for term in terms:
             term.add_precedent(self)
 
+
+    def solve(self):
+        certain = []
+        values = []
+        for term in self.terms:
+            cert, val = term.read_val()
+            if cert == True and val == True:
+                self.set_val(True)
+                return
+            values.append(val)
+            certain.append(cert)
+        
+        if all(certain):
+            self.set_val(any(values))
 
     # def read_val(self):
     #     if any([term.certain == True and term.val == True for term in self.terms]):
@@ -121,9 +146,11 @@ class   Logicxor(Symbol):
         for term in [term1, term2]:
             term.add_precedent(self)
 
-    def read_val(self):
-        if all([term.certain for term in [self.term1, self.term2]]):
-            return self.term1.val != self.term2.val
+    def solve(self):
+        cert1, var1 = self.term1.read_val()
+        cert2, var2 = self.term2.read_val()
+        if all([cert1, cert2]):
+            self.set_val(var1 != var2)
 
 
     def display(self):
