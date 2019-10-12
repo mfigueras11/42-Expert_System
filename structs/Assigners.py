@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/18 11:58:06 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/26 11:36:02 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/12 18:43:43 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,10 +25,13 @@ class   Assigners():
     def __init__(self, left_term, right_term):
         self.left_term = left_term
         self.right_term = right_term
+        self.solved = False
 
 
     def display(self):
         return self.left_term.display() + self.symbol + self.right_term.display()
+
+
 
 
 class   Implies(Assigners):
@@ -36,10 +39,24 @@ class   Implies(Assigners):
 
     def list_vars(self):
         return self.left_term.list_vars(), self.right_term.list_vars()
-    
+
+    def solve(self):
+        if not self.solved:
+            print(self.display())
+            self.solved = True
+            cert, val = self.left_term.read_val()
+            if val == True:
+                self.right_term.assign(cert, True)
+
+
+
 
 class   Iff(Assigners):
     symbol = config.iff
 
     def list_vars(self):
         return [], self.left_term.list_vars() + self.right_term.list_vars()
+
+    def solve(self):
+        if not self.solved:
+            self.solved = True
