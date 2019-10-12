@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:58:52 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/07 19:34:04 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/12 18:41:50 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,12 @@ class   Symbol(Variable):
     def list_vars(self):
         return [var for term in self.terms for var in term.list_vars()]
 
+    def assign(self, cert, val):
+        sys.exit('ERROR - Only and and not symbols allowed at assignments')
+        pass
+
+
+
 
 class   Logicnot(Symbol):
     """
@@ -36,19 +42,20 @@ class   Logicnot(Symbol):
         term.add_precedent(self)
 
 
-    def solve(self):
+    def operate(self):
         cert, val = self.term.read_val()
         newval = not val
-        if cert:
-            self.set_val(newval)
+        self.set_val(cert, newval)
     
     def display(self):
         return "NOT(" + self.term.display() + ")"
 
+    def assign(self, cert, val):
+        if val == True or val == False:
+            notval = not val
+            self.term.assign(cert, notval)
 
-    # def answer_mode(self, ans):
-    #     ans = not ans
-    #     self.term.set_val(ans)
+
 
 
 class   Logicand(Symbol):
@@ -64,29 +71,32 @@ class   Logicand(Symbol):
             term.add_precedent(self)
 
 
-    def solve(self):
+    def operate(self):
         certain = []
         values = []
         for term in self.terms:
             cert, val = term.read_val()
             if cert == True and val == False:
-                self.set_val(False)
+                self.set_val(True, False)
                 return
             values.append(val)
             certain.append(cert)
         
-        if all(certain):
-            self.set_val(all(values))
+        self.set_val(all(certain), all(values))
         
 
-    
+    def assign(self, cert, val):
+        if val == True:
+            for term in self.terms:
+                term.assign(cert, True)
+        elif val == False:
+            for term in self.terms:
+                term.assign(cert, None)
+
+
     def display(self):
         return "AND(" + ",".join([term.display() for term in self.terms]) + ")"
 
-
-    # def answer_mode(self, ans):
-    #     ans = not ans
-    #     self.term.set_val(ans)
 
 
 
@@ -103,27 +113,18 @@ class   Logicor(Symbol):
             term.add_precedent(self)
 
 
-    def solve(self):
+    def operate(self):
         certain = []
         values = []
         for term in self.terms:
             cert, val = term.read_val()
             if cert == True and val == True:
-                self.set_val(True)
+                self.set_val(True, True)
                 return
             values.append(val)
             certain.append(cert)
         
-        if all(certain):
-            self.set_val(any(values))
-
-    # def read_val(self):
-    #     if any([term.certain == True and term.val == True for term in self.terms]):
-    #         self.certain = True
-    #         self.val = True
-    #         return True
-    #     elif:
-    #         self.val = any([term.val == True for term in self.terms])
+        self.set_val(all(certain), any(values))
 
 
     def display(self):
@@ -146,11 +147,11 @@ class   Logicxor(Symbol):
         for term in [term1, term2]:
             term.add_precedent(self)
 
-    def solve(self):
+
+    def operate(self):
         cert1, var1 = self.term1.read_val()
         cert2, var2 = self.term2.read_val()
-        if all([cert1, cert2]):
-            self.set_val(var1 != var2)
+        self.set_val(all([cert1, cert2]), var1 != var2)
 
 
     def display(self):
