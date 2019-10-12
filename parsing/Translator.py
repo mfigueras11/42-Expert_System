@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/07 18:03:28 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/12 18:51:37 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ class   Translator():
             cert, uncert = rule.list_vars()
             certain.extend(cert)
             uncertain.extend(uncert)
+            for var in list(set(uncert)):
+                var.rules.append(rule)
 
         return [var for var in certain if var not in uncertain]
 
@@ -49,7 +51,6 @@ class   Translator():
     def translate(self):
         self.rules = []
         for rule in self.raw_rules:
-            print(rule)
             self.rules.append(self.process_rule(rule))
         self.update_queries_facts()
         Literal.init_true(self.raw_facts)
