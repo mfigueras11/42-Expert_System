@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/26 11:57:11 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/12 18:52:02 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ class   Literal(Variable):
     def __init__(self, literal):
         super().__init__()
         self.literal = literal
+        self.rules = []
 
 
     @classmethod
@@ -64,8 +65,20 @@ class   Literal(Variable):
     @classmethod
     def init_true(cls, variables):
         for var in variables:
-            cls.literals[var].set_val(True)
+            cls.literals[var].set_val(True, True)
 
 
     def get_error_unsolvable(self):
         return ' Literal {} with conflicting values.'.format(self.literal)
+
+
+    def assign(self, cert, val):
+        if val == True or val == False:
+            self.set_val(cert, val)
+
+    def read_val(self):
+        if not self.certain:
+            print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
+            for rule in self.rules:
+                rule.solve()
+        return self.certain, self.val
