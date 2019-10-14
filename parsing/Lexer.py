@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/20 12:14:30 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/14 16:11:49 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,4 +58,14 @@ class Lexer():
         if brackets != 0 or variables != 1:
             return False, "3"
         
-        return True, "4"
+        if rule.count(config.subst_iff) == 1:
+            for c in rule:
+                if c not in config.literals and c != config.subst_iff and c != config.op_and:
+                    return False, "4"
+        else:
+            conclusion = rule.split(config.subst_impl)[1]
+            for c in conclusion:
+                if c not in config.literals and c != config.op_and:
+                    return False, "5"
+
+        return True, "6"
