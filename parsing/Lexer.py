@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/15 17:03:04 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/15 17:07:08 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,4 +68,4 @@ class Lexer():
                 if c not in config.literals and c != config.op_and:
                     return False, "Invalid operator in conclusion."
 
-        return True, "All god"
+        return True, "All good"
