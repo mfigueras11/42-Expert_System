@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:09:22 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/14 16:11:49 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/15 17:03:04 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ class Lexer():
         for rule in self.rules:
             balanced, error = self.is_balanced(rule)
             if not balanced:
-                sys.exit("ERROR - " + error)
+                sys.exit(rule+"\nERROR - " + error)
         return True
 
     @staticmethod
@@ -50,22 +50,22 @@ class Lexer():
                 variables -= 1
             elif c == config.negation:
                 if (i + 1 < len(rule) and (rule[i + 1] not in config.literals and rule[i + 1] != config.l_bracket))or i + 1 > len(rule):
-                    return False, "1"
+                    return False, "Negation in the wrong place."
             
             if brackets < 0 or variables > 1:
-                return False, "2"
+                return False, "Wrong syntax."
                 
         if brackets != 0 or variables != 1:
-            return False, "3"
+            return False, "Wrong syntax."
         
         if rule.count(config.subst_iff) == 1:
             for c in rule:
                 if c not in config.literals and c != config.subst_iff and c != config.op_and:
-                    return False, "4"
+                    return False, "Invalid operator in If and only if statement."
         else:
             conclusion = rule.split(config.subst_impl)[1]
             for c in conclusion:
                 if c not in config.literals and c != config.op_and:
-                    return False, "5"
+                    return False, "Invalid operator in conclusion."
 
-        return True, "6"
+        return True, "All god"
