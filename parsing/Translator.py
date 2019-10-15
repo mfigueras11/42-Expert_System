@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/12 18:51:37 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/15 11:08:17 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ class   Translator():
     def translate(self):
         self.rules = []
         for rule in self.raw_rules:
-            self.rules.append(self.process_rule(rule))
+            self.rules.extend(self.process_rule(rule))
         self.update_queries_facts()
         Literal.init_true(self.raw_facts)
         certain = self.find_certain(self.rules)
@@ -158,11 +158,10 @@ class   Translator():
     def process_rule(self, rule):
         sentences, isimply = self._split_rule(rule)
 
-        # sentences = [self.process_sentence(self.generate_variables(sentence)) for sentence in sentences]
         sentences = [self.process_sentence(list(sentence)) for sentence in sentences]
 
         
         if isimply:
-            return Implies(*sentences)
+            return [Implies(*sentences)]
         else:
-            return Iff(*sentences)
+            return [Iff(*sentences), Iff(*sentences[::-1])]
