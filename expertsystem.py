@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/12 19:08:45 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/17 18:53:22 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ from Parser import Parser
 from Lexer import Lexer
 from Translator import Translator
 from Literal import Literal
+from Config import Config as config
 
 
 def parse_args():
@@ -28,6 +29,18 @@ def parse_args():
     parser.add_argument('file', help='path to input file.')
 
     return parser.parse_args()
+
+
+def process_input():
+    request = input("Please enter instruction: (X to exit)\n").capitalize()
+    if request == "X":
+        print("Exitting program.")
+        return False
+    if request != '':
+        line_type, line = Parser.single_line(request)
+
+    return True
+
 
 
 def expertsystem():
@@ -39,6 +52,10 @@ def expertsystem():
         translator.translate()
     for query in translator.queries:
         print(query.get_name_val())
+    if config.interactive:
+        while process_input:
+            _ = 1
+                
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:29:00 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/19 11:36:10 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/17 18:54:35 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,3 +34,9 @@ class   Config():
     op_symbols = op_and + op_or + op_xor
 
     negation = '!'
+
+    interactive = True
+
+    query_type = 1
+    fact_type = 2
+    rule_type = 3

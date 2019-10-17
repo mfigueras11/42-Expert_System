@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/09/21 13:40:32 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/17 18:15:45 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,6 +91,15 @@ class Parser():
     def eval_file(self):
         self.get_clean_instructions()
         self.sort_instructions()
-        # self.rules = self.generate_variables()
-        # Literal.init_true(self.facts)
-        # Literal.display_all_info()
+
+
+    @classmethod
+    def single_line(cls, line):
+        if line[0] == config.query:
+            return config.query_type, cls.get_individual_list(cls.clean_line(line))
+        elif line[0] == config.fact:
+            return config.fact_type, cls.get_individual_list(cls.clean_line(line))
+        else:
+            return config.rule_type, cls.clean_line(line)
+
+
