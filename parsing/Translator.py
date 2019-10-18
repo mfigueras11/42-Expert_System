@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/15 11:08:17 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/18 10:07:46 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,11 +28,18 @@ class   Translator():
         self.raw_rules = raw_rules
         self.raw_facts = raw_facts
         self.raw_queries = raw_queries
+        self.rules = []
+
+
+    @staticmethod
+    def literalize(queries): ##CHANGE NAME!!
+        return [Literal.fromliteral(c) for c in queries]
+
 
 
     def update_queries_facts(self):
-        self.facts = [Literal.fromliteral(c) for c in self.raw_facts]
-        self.queries = [Literal.fromliteral(c) for c in self.raw_queries]
+        self.facts = self.literalize(self.raw_facts)
+        self.queries = self.literalize(self.raw_queries)
 
 
     @staticmethod
@@ -49,7 +56,6 @@ class   Translator():
 
 
     def translate(self):
-        self.rules = []
         for rule in self.raw_rules:
             self.rules.extend(self.process_rule(rule))
         self.update_queries_facts()
@@ -57,7 +63,17 @@ class   Translator():
         certain = self.find_certain(self.rules)
         for var in certain:
             var.certain = True
-        
+
+
+    @classmethod
+    def translate_one(cls, rule):
+        rule = cls.process_rule(rule)[0]
+        cls.rules.extend(rule)
+        new_cert, new_uncert = rule.list_vars()
+
+
+
+
 
 
     def _split_rule(self, rule):
@@ -70,7 +86,7 @@ class   Translator():
     @staticmethod 
     def _isvariable(var):
         return Variable in type(var).__bases__
-    
+
 
     @staticmethod 
     def _closing_bracket(string):
@@ -99,7 +115,7 @@ class   Translator():
             return self._substitute(stc, i, i + 2, stc[i+1].term)
         return self._substitute(stc, i, i + 2, Logicnot(stc[i+1]))
 
-    
+
     @staticmethod
     def _flood_signs(stc, op):
         no = 0
@@ -120,10 +136,11 @@ class   Translator():
         j, operands = self._flood_signs(stc[i - 1 :], config.op_and)
         return self._substitute(stc, i - 1, i + j, Logicand(operands))
 
-    
+
     def _op_or(self, stc, i):
         j, operands = self._flood_signs(stc[i - 1 :], config.op_or)
         return self._substitute(stc, i - 1, i + j, Logicor(operands))
+
 
     def _op_xor(self, stc, i):
         return self._substitute(stc, i - 1, i + 2, Logicxor(*stc[i - 1 : i + 2 : 2]))
@@ -149,18 +166,18 @@ class   Translator():
                     continue
                 break
 
-    
+
     @staticmethod 
     def _generate_variables(sentence):
         return [Literal.fromliteral(letter) if letter in config.literals else letter for letter in sentence]
-        
+
 
     def process_rule(self, rule):
         sentences, isimply = self._split_rule(rule)
 
         sentences = [self.process_sentence(list(sentence)) for sentence in sentences]
 
-        
+
         if isimply:
             return [Implies(*sentences)]
         else:
