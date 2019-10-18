@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/17 18:53:22 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/18 10:00:52 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,16 @@ def parse_args():
 
 
 def process_input():
-    request = input("Please enter instruction: (X to exit)\n").capitalize()
+    request = input("Please enter instruction: (X to exit)\n").upper()
     if request == "X":
         print("Exitting program.")
         return False
     if request != '':
         line_type, line = Parser.single_line(request)
+        if line_type == config.query_type:
+            queries = Translator.literalize(line)
+            for query in queries:
+                print(query.get_name_val())
 
     return True
 
@@ -53,7 +57,7 @@ def expertsystem():
     for query in translator.queries:
         print(query.get_name_val())
     if config.interactive:
-        while process_input:
+        while process_input():
             _ = 1
                 
 
