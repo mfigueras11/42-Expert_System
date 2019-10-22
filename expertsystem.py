@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/18 10:00:52 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/22 19:16:10 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,13 @@ def process_input():
             queries = Translator.literalize(line)
             for query in queries:
                 print(query.get_name_val())
+        elif line_type == config.fact_type:
+            facts = Translator.literalize(line)
+            for fact in facts:
+                if fact.val == False and fact.locked == True:
+                    fact.locked = False
+                fact.wipe()
+                fact.secure(True)
 
     return True
 

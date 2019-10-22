@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/12 18:52:02 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/22 18:46:53 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,7 +65,7 @@ class   Literal(Variable):
     @classmethod
     def init_true(cls, variables):
         for var in variables:
-            cls.literals[var].set_val(True, True)
+            cls.literals[var].secure(True)
 
 
     def get_error_unsolvable(self):

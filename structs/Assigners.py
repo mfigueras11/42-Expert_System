@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/18 11:58:06 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/15 11:25:26 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/22 18:41:33 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,11 @@ class   Assigners():
             cert, val = self.left_term.read_val()
             if val == True:
                 self.right_term.assign(cert, True)
+
+    def wipe(self):
+        impacted = self.right_term.list_vars()
+        for var in impacted:
+            var.wipe()
 
 
 

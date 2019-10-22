@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 09:37:12 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/12 18:35:25 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/22 18:38:30 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ class   Variable():
     def __init__(self):
         self.val = False
         self.certain = False
+        self.locked = False
         self.precedents = []
 
 
@@ -36,14 +37,34 @@ class   Variable():
             self.operate()
         return self.certain, self.val
 
-    
+
     def get_error_unsolvable(self):
         return ""
 
-    
+
     def add_precedent(self, precedent):
         self.precedents.append(precedent)
-    
-  
+
+
     def operate(self):
         pass
+
+
+    def secure(self, val):
+        self.set_val(True, val)
+        self.locked = True
+    
+    
+    def reset(self):
+        self.locked = False
+        self.certain = False
+        self.val = False
+
+
+    def wipe(self):
+        if self.locked:
+            return
+        self.reset()
+        for pre in self.precedents:
+            if pre.certain or pre.val:
+                pre.wipe()
