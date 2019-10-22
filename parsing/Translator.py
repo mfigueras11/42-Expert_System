@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/18 10:07:46 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/22 18:45:05 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,13 +62,13 @@ class   Translator():
         Literal.init_true(self.raw_facts)
         certain = self.find_certain(self.rules)
         for var in certain:
-            var.certain = True
+            var.secure(False)
 
 
     @classmethod
     def translate_one(cls, rule):
         rule = cls.process_rule(rule)[0]
-        cls.rules.extend(rule)
+        cls.rules.append(rule)
         new_cert, new_uncert = rule.list_vars()
 
 
