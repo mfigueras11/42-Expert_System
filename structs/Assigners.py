@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/18 11:58:06 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/22 18:41:33 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 16:38:48 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,9 @@ class   Assigners():
         self.left_term = left_term
         self.right_term = right_term
         self.solved = False
+        self.val = False
+        self.certain = False
+        left_term.precedents.append(self)
 
 
     def display(self):
@@ -37,11 +40,11 @@ class   Assigners():
 
     def solve(self):
         if not self.solved:
-            print(self.display())
             self.solved = True
-            cert, val = self.left_term.read_val()
-            if val == True:
-                self.right_term.assign(cert, True)
+            self.certain, self.val = self.left_term.read_val()
+            if self.val == True:
+                self.right_term.assign(self.certain, True)
+
 
     def wipe(self):
         impacted = self.right_term.list_vars()

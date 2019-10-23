@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/22 18:46:53 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 16:40:11 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,10 @@ class   Literal(Variable):
             return cls.get_var(literal)
 
 
+    def display(self):
+        return self.literal
+    
+    
     def list_vars(self):
         return [self]
 
@@ -78,7 +82,7 @@ class   Literal(Variable):
 
     def read_val(self):
         if not self.certain:
-            print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
+            # print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
             for rule in self.rules:
                 rule.solve()
         return self.certain, self.val

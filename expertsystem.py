@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/22 19:16:10 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 17:05:05 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,10 @@ def parse_args():
 
 
 def process_input():
-    request = input("Please enter instruction: (X to exit)\n").upper()
+    # Literal.display_all_info()
+    request = input("\nPlease enter instruction: (X to exit)\n").upper()
     if request == "X":
-        print("Exitting program.")
+        print("Exiting program.")
         return False
     if request != '':
         line_type, line = Parser.single_line(request)
@@ -44,11 +45,17 @@ def process_input():
                 print(query.get_name_val())
         elif line_type == config.fact_type:
             facts = Translator.literalize(line)
-            for fact in facts:
-                if fact.val == False and fact.locked == True:
-                    fact.locked = False
-                fact.wipe()
-                fact.secure(True)
+            else:
+                for fact in facts:
+                    if fact.val == False and fact.locked == True:
+                        fact.locked = False
+                    fact.wipe()
+                    fact.secure(True)
+        else:
+            print('Try again.')
+    else:
+        print('Try again.')
+    # Literal.display_all_info()
 
     return True
 
