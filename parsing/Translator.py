@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 11:54:51 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/22 18:45:05 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 15:55:37 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,8 @@ class   Translator():
         Literal.init_true(self.raw_facts)
         certain = self.find_certain(self.rules)
         for var in certain:
-            var.secure(False)
+            if not var.locked:
+                var.secure(False)
 
 
     @classmethod
