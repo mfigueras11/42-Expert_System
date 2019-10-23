@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/18 11:58:06 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/23 16:38:48 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 18:50:20 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ class   Assigners():
     def list_vars(self):
         return self.left_term.list_vars(), self.right_term.list_vars()
 
+
     def solve(self):
         if not self.solved:
             self.solved = True
@@ -47,6 +48,7 @@ class   Assigners():
 
 
     def wipe(self):
+        self.solved = False
         impacted = self.right_term.list_vars()
         for var in impacted:
             var.wipe()

@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/23 17:05:05 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 18:26:13 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,15 +42,18 @@ def process_input():
         if line_type == config.query_type:
             queries = Translator.literalize(line)
             for query in queries:
-                print(query.get_name_val())
+                print(query.solve())
         elif line_type == config.fact_type:
             facts = Translator.literalize(line)
-            else:
-                for fact in facts:
-                    if fact.val == False and fact.locked == True:
-                        fact.locked = False
-                    fact.wipe()
-                    fact.secure(True)
+            for fact in facts:
+                if fact.val == False and fact.locked == True:
+                    fact.locked = False
+                fact.wipe()
+                fact.secure(True)
+        elif request == '.':
+            Literal.display_all_info()
+        elif request == '!':
+            Literal.display_all_info_solve()
         else:
             print('Try again.')
     else:
@@ -69,7 +72,7 @@ def expertsystem():
         translator = Translator(parser.raw_rules, parser.raw_facts, parser.raw_queries)
         translator.translate()
     for query in translator.queries:
-        print(query.get_name_val())
+        print(query.solve())
     if config.interactive:
         while process_input():
             _ = 1

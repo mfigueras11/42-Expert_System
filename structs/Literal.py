@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/23 16:40:11 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/23 18:43:58 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,13 +46,25 @@ class   Literal(Variable):
         return cls.literals[literal]
 
 
+    def solve(self):
+        return '{} - {}'.format(self.literal, str(self.read_val()[1]))
+
+    
     def get_name_val(self):
-        return '{} - {}'.format(self.literal, str(self.read_val()))
+        return '{} - {} {} {}'.format(self.literal, str(self.val)[0], str(self.certain)[0], str(self.locked)[0])
 
 
     @classmethod
     def display_info(cls, varnames):
+        print("Var V C L")
         info = [var.get_name_val() for name, var in cls.literals.items() if name in varnames]
+        info.sort()
+        print("\n".join(info))
+
+
+    @classmethod
+    def display_info_solve(cls, varnames):
+        info = [var.solve() for name, var in cls.literals.items() if name in varnames]
         info.sort()
         print("\n".join(info))
 
@@ -62,8 +74,9 @@ class   Literal(Variable):
         cls.display_info(cls.literals.keys())
 
 
-    def display(self):
-        return self.literal
+    @classmethod
+    def display_all_info_solve(cls):
+        cls.display_info_solve(cls.literals.keys())
 
 
     @classmethod
@@ -82,7 +95,7 @@ class   Literal(Variable):
 
     def read_val(self):
         if not self.certain:
-            # print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
+            print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
             for rule in self.rules:
                 rule.solve()
         return self.certain, self.val
