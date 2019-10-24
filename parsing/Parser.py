@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 18:59:40 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/18 09:56:52 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/24 11:27:54 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ class Parser():
 
         if len(self.i_facts) > 1:
             sys.exit('ERROR - Insert just one line with facts.')
-        if len(self.i_queries) == 0:
+        if len(self.i_queries) == 0 and not config.interactive:
             sys.exit('ERROR - Insert at least one line with queries.')
         if len(self.i_facts) == 1 and self.i_facts[0] != len(self.instructions) - len(self.i_queries) - 1:
             sys.exit('ERROR - Facts must be between rules and queries.')
@@ -64,7 +64,8 @@ class Parser():
         Verifies that queries and fact lines have the proper forat and returns
         the string(s) as a list of single variables.
         """
-
+        if len(collection) == 0:
+            return []
         for c in collection:
             if re.match(r"^[" + re.escape(config.query + config.fact) + "]([" + re.escape(config.literals) + r"])+$", c) == None:
                 sys.exit('ERROR - Only capital letters and corresponding symbol at the beggining in queries and facts')
