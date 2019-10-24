@@ -1,0 +1,17 @@
+# this is a comment$
+# all the required rules and symbols, along with the bonus ones, will be
+# shown here. spacing is not important
+
+A + B => C
+
+A | D => E
+
+E + !D + C => F
+
+F => G
+
+!A => D
+
+
+#=AB
+#?A
