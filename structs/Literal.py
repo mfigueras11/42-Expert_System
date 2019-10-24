@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/23 18:43:58 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/24 10:59:40 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ class   Literal(Variable):
 
 
     def solve(self):
-        return '{} - {}'.format(self.literal, str(self.read_val()[1]))
+        return '{} - {}'.format(self.literal, str(self.read_val()[1])[0])
 
     
     def get_name_val(self):
