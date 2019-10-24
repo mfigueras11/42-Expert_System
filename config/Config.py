@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/19 10:29:00 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/24 11:10:16 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/24 11:55:01 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,10 +35,9 @@ class   Config():
 
     negation = '!'
 
-    interactive = None
-
     query_type = 1
     fact_type = 2
     rule_type = 3
 
-    verbose = False
+    interactive = None
+    verbose = None

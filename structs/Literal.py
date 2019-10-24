@@ -6,11 +6,12 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/17 18:36:48 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/24 10:59:40 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/24 17:00:08 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from Variable import Variable
+from Config import Config as config
 
 
 class   Literal(Variable):
@@ -35,8 +36,8 @@ class   Literal(Variable):
 
     def display(self):
         return self.literal
-    
-    
+
+
     def list_vars(self):
         return [self]
 
@@ -49,14 +50,14 @@ class   Literal(Variable):
     def solve(self):
         return '{} - {}'.format(self.literal, str(self.read_val()[1])[0])
 
-    
+
     def get_name_val(self):
         return '{} - {} {} {}'.format(self.literal, str(self.val)[0], str(self.certain)[0], str(self.locked)[0])
 
 
     @classmethod
     def display_info(cls, varnames):
-        print("Var V C L")
+        print("var V C L")
         info = [var.get_name_val() for name, var in cls.literals.items() if name in varnames]
         info.sort()
         print("\n".join(info))
@@ -68,7 +69,7 @@ class   Literal(Variable):
         info.sort()
         print("\n".join(info))
 
-    
+
     @classmethod
     def display_all_info(cls):
         cls.display_info(cls.literals.keys())
@@ -95,7 +96,10 @@ class   Literal(Variable):
 
     def read_val(self):
         if not self.certain:
-            print(self.display() + " <" + " ".join([rule.display() for rule in self.rules]) +">")
+            if config.verbose:
+                print("To know {}, first we need to know {}.".format(self.display(), ", or ".join([rule.display() for rule in self.rules])))
             for rule in self.rules:
                 rule.solve()
+        if config.verbose:
+            print('{} is {}.'.format(self.display(), self.val))
         return self.certain, self.val

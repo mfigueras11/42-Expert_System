@@ -6,7 +6,7 @@
 #    By: mfiguera <mfiguera@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/14 19:00:04 by mfiguera          #+#    #+#              #
-#    Updated: 2019/10/24 11:30:55 by mfiguera         ###   ########.fr        #
+#    Updated: 2019/10/24 17:15:47 by mfiguera         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,16 @@ from Config import Config as config
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Program to help solve logic systems.\nIn interactive mode (-i), use "." to print current variable status, "!" to solve all variables, and normal query and fact language for specific queries and facts.')
+    parser = argparse.ArgumentParser(description='Program to help solve logic systems.\nIn interactive mode (-i), use "." to print current variable status, "!" to solve all variables, "v" to toggle verbose, and normal query and fact syntax for specific queries and facts.')
 
     parser.add_argument('file', help='path to input file.')
     parser.add_argument('-i', '--interactive', help='trigger interactive mode.', action='store_true')
+    parser.add_argument('-v', '--verbose', help='trigger verbose mode.', action='store_true')
 
     return parser.parse_args()
 
 
 def process_input():
-    # Literal.display_all_info()
     request = input("Please enter instruction: (X to exit)\n").upper()
     if request == "X":
         print("Exiting program.")
@@ -43,7 +43,10 @@ def process_input():
         if line_type == config.query_type:
             queries = Translator.literalize(line)
             for query in queries:
-                print(query.solve())
+                if config.verbose:
+                    query.solve()
+                else:
+                    print(query.solve())
         elif line_type == config.fact_type:
             facts = Translator.literalize(line)
             for fact in facts:
@@ -55,11 +58,13 @@ def process_input():
             Literal.display_all_info()
         elif request == '!':
             Literal.display_all_info_solve()
+        elif request == 'V':
+            config.verbose = not config.verbose
+            print("Verbose is now {}".format(config.verbose))
         else:
             print('Try again.')
     else:
         print('Try again.')
-    # Literal.display_all_info()
 
     return True
 
@@ -82,6 +87,7 @@ def expertsystem(file):
 def main():
     args = parse_args()
     config.interactive = args.interactive
+    config.verbose = args.verbose
     expertsystem(args.file)
 
 
